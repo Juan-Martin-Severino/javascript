@@ -1,3 +1,5 @@
+//DECLARACION DE CLASES, ARRAYS Y VARIABLES
+
 class Ingrediente {
   constructor(nombre, precio, stock) {
     this.nombre = nombre;
@@ -56,6 +58,8 @@ let precioparcial = 0;
 let preciodescuento;
 let preciofinal;
 
+//SOLICITU DE DATOS POR PROMPT Y SALIDA DE DATOS POR ALERT Y CONSOLA
+
 console.log("Lista de Precios");
 for (const ingrediente of ingredientes) {
   console.log(ingrediente.nombre + ": $" + ingrediente.precio);
@@ -76,9 +80,8 @@ pedido.push(dia.toLowerCase());
 
 console.log(pedido);
 
-const busqueda = dias.find((el) => el.dia == pedido[1]);
+const busqueda = dias.find((el) => el.dia == pedido[1]); // UTILIZACION DE MÉTODO DE BUSQUEDA FIND
 console.log(busqueda);
-console.log(busqueda.descuento);
 
 if (busqueda) {
   alert(
@@ -117,27 +120,27 @@ console.log(pedido);
 
 for (const item of pedido) {
   let precioitem;
-  console.log(item.precio);
-  console.log(item.stock);
   precioitem = parseFloat(item.precio) * parseFloat(item.stock);
-  console.log(precioitem);
   if (isNaN(precioitem) != true) {
     precioparcial += precioitem;
   }
 }
 
-console.log(precioparcial);
+console.log("El precio de tu Burger es de: $" + precioparcial);
 alert("El precio de tu Burger es de: $" + precioparcial);
 
 preciodescuento = parseFloat(
-  calcularDescuento(precioparcial, busqueda.descuento)
+  calcularDescuento(precioparcial, busqueda.descuento) //UTILIZACION DE FUNCIONES
 );
-console.log(preciodescuento);
+console.log("El precio de descuento es de: $" + preciodescuento);
 alert("Por ser " + pedido[1] + ", el descuento es de: $" + preciodescuento);
 
-preciofinal = parseFloat(calcularPreciofinal(precioparcial, preciodescuento));
-console.log(preciofinal);
+preciofinal = parseFloat(calcularPreciofinal(precioparcial, preciodescuento)); //UTILIZACION DE FUNCIONES
+
+console.log("El precio final de tu Burger es: $" + preciofinal);
 alert("El precio final de tu Burger es: $" + preciofinal);
+
+// DECLARACION DE FUNCIONES
 
 function calcularDescuento(precioparcial, descuento) {
   let preciodescuento = precioparcial * descuento;
