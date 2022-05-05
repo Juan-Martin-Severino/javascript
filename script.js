@@ -57,6 +57,15 @@ let dia;
 let precioparcial = 0;
 let preciodescuento;
 let preciofinal;
+let divListadePrecios = document.getElementById("listadeprecios");
+
+// INTERACCION CON HTML
+
+ingredientes.forEach((ingredienteEnArray) => {
+  divListadePrecios.innerHTML += `
+              <h4>${ingredienteEnArray.nombre}: $${ingredienteEnArray.precio}</h4>
+        `;
+});
 
 //SOLICITU DE DATOS POR PROMPT Y SALIDA DE DATOS POR ALERT Y CONSOLA
 
@@ -139,6 +148,7 @@ preciofinal = parseFloat(calcularPreciofinal(precioparcial, preciodescuento)); /
 
 console.log("El precio final de tu Burger es: $" + preciofinal);
 alert("El precio final de tu Burger es: $" + preciofinal);
+
 
 // DECLARACION DE FUNCIONES
 
