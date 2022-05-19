@@ -4,47 +4,124 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <title>Simulador Interactivo</title>
   </head>
   <body>
-    <h1>Simulador Interactivo</h1>
-    <h2>¡Bienvenido a CoderBurger!</h2>
-    <h3>Primera entrega del Proyecto Final</h3>
-    <div id="listadeprecios"></div>
+    <div class="container">
+      <h1>Simulador Interactivo</h1>
+      <h2>¡Bienvenido a CoderBurger!</h2>
+      <h3>Segunda entrega del Proyecto Final</h3>
+      <br />
+      <br />
+      <h3>Lista de precios</h3>
+      <ul id="listadeprecios" class="list-group"></ul>
+      <br />
+      <br />
+      <h3>Completá tu pedido!</h3>
 
-    <form id="pedido">
-      <label>Nombre</label>
-      <input id="nombre" type="text" /><br>
-      <label>Dia</label>
-      <input id="dia" type="text" /><br>
-      <label>Pan</label>
-      <input id="pan" type="number" /><br>
-      <label>Carne</label>
-      <input id="carne" type="number" /><br>
-      <label>Chedar</label>
-      <input id="chedar" type="number" /><br>
-      <label>Cebolla</label>
-      <input id="cebolla" type="number" /><br>
-      <label>Tomate</label>
-      <input id="tomate" type="number" /><br>
-      <label>Lechuga</label>
-      <input id="lechuga" type="number" /><br>
-      <label>Bacon</label>
-      <input id="bacon" type="number" /><br>
-      <label>Huevo</label>
-      <input id="huevo" type="number" /><br>
-      <label>Mayonesa</label>
-      <input id="mayonesa" type="number" /><br>
-      <label>Ketchup</label>
-      <input id="ketchup" type="number" /><br>
-      <label>Mostaza</label>
-      <input id="mostaza" type="number" /><br>
-      <label>Barbacoa</label>
-      <input id="barbacoa" type="number" /><br>
-      <input type="submit" value="Enviar" />
-    </form>
-
-    <div id="detallepedido"></div>
-    <script src="./script.js"></script>
+      <form id="pedido">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" id="nombre" name="nombre" type="text" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Dia</label>
+          <input class="form-control" id="dia" name="dia" type="text" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Pan</label>
+          <input class="form-control" id="pan" name="pan" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Carne</label>
+          <input class="form-control" id="carne" name="carne" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Chedar</label>
+          <input class="form-control" id="chedar" name="chedar" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Cebolla</label>
+          <input
+            class="form-control"
+            id="cebolla"
+            name="cebolla"
+            type="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tomate</label>
+          <input class="form-control" id="tomate" name="tomate" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Lechuga</label>
+          <input
+            class="form-control"
+            id="lechuga"
+            name="lechuga"
+            type="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Bacon</label>
+          <input class="form-control" id="bacon" name="bacon" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Huevo</label>
+          <input class="form-control" id="huevo" name="huevo" type="number" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mayonesa</label>
+          <input
+            class="form-control"
+            id="mayonesa"
+            name="mayonesa"
+            type="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Ketchup</label>
+          <input
+            class="form-control"
+            id="ketchup"
+            name="ketchup"
+            type="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mostaza</label>
+          <input
+            class="form-control"
+            id="mostaza"
+            name="mostaza"
+            type="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Barbacoa</label>
+          <input
+            class="form-control"
+            id="barbacoa"
+            name="barbacoa"
+            type="number"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Pedido</button>
+      </form>
+      <button id="mostrarPedido" class="btn btn-primary">Mostrar Pedido</button>
+      <div id="detallepedido"></div>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"
+      ></script>
+      <script src="./script.js"></script>
+    </div>
   </body>
 </html>

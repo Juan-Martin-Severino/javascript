@@ -36,7 +36,13 @@ const ingredientes = [
   barbacoa,
 ];
 
-const pedido = [];
+let pedido = [];
+
+if (localStorage.getItem("Pedido")) {
+  pedido = JSON.parse(localStorage.getItem("Pedido"));
+} else {
+  localStorage.setItem("Pedido", JSON.stringify(pedido));
+}
 
 class Dias {
   constructor(dia, descuento) {
@@ -56,32 +62,22 @@ let busqueda;
 let nombre;
 let dia;
 
-let cpan;
-let ccarne;
-let cchedar;
-let ccebolla;
-let ctomate;
-let clechuga;
-let cbacon;
-let chuevo;
-let cmayonesa;
-let cketchup;
-let cmostaza;
-let cbarbacoa;
-
-let formularioPedido = document.getElementById("pedido");
-
 let precioparcial = 0;
 let preciodescuento = 0;
 let preciofinal;
+
+let formularioPedido = document.getElementById("pedido");
 let divListadePrecios = document.getElementById("listadeprecios");
 let divDetallePedido = document.getElementById("detallepedido");
+let mostrarPedido = document.getElementById("mostrarPedido");
 
 // INTERACCION CON HTML
 
 ingredientes.forEach((ingredienteEnArray) => {
   divListadePrecios.innerHTML += `
-              <h4>${ingredienteEnArray.nombre}: $${ingredienteEnArray.precio}</h4>
+  
+                <li class="list-group-item">${ingredienteEnArray.nombre}: $${ingredienteEnArray.precio}</li>
+              
         `;
 });
 
@@ -92,99 +88,106 @@ for (const ingrediente of ingredientes) {
   console.log(ingrediente.nombre + ": $" + ingrediente.precio);
 }
 
-nombre = document.getElementById("nombre");
-nombre.addEventListener("change", () => {
-  pedido.push(nombre.value);
-  console.log(pedido);
-});
-
-dia = document.getElementById("dia");
-dia.addEventListener("change", () => {
-  pedido.push(dia.value.toLowerCase());
-  busqueda = dias.find((el) => el.dia == pedido[1]); // UTILIZACION DE MÉTODO DE BUSQUEDA FIND
-  console.log(busqueda);
-  console.log(pedido);
-});
-
-cpan = document.getElementById("pan");
-cpan.addEventListener("change", () => {
-  pedido.push(new Ingrediente(pan.nombre, pan.precio, cpan.value));
-  console.log(pedido);
-});
-
-ccarne = document.getElementById("carne");
-ccarne.addEventListener("change", () => {
-  pedido.push(new Ingrediente(carne.nombre, carne.precio, ccarne.value));
-  console.log(pedido);
-});
-
-cchedar = document.getElementById("chedar");
-cchedar.addEventListener("change", () => {
-  pedido.push(new Ingrediente(chedar.nombre, chedar.precio, cchedar.value));
-  console.log(pedido);
-});
-
-ccebolla = document.getElementById("cebolla");
-ccebolla.addEventListener("change", () => {
-  pedido.push(new Ingrediente(cebolla.nombre, cebolla.precio, ccebolla.value));
-  console.log(pedido);
-});
-
-ctomate = document.getElementById("tomate");
-ctomate.addEventListener("change", () => {
-  pedido.push(new Ingrediente(tomate.nombre, tomate.precio, ctomate.value));
-  console.log(pedido);
-});
-
-clechuga = document.getElementById("lechuga");
-clechuga.addEventListener("change", () => {
-  pedido.push(new Ingrediente(lechuga.nombre, lechuga.precio, clechuga.value));
-  console.log(pedido);
-});
-
-cbacon = document.getElementById("bacon");
-cbacon.addEventListener("change", () => {
-  pedido.push(new Ingrediente(bacon.nombre, bacon.precio, cbacon.value));
-  console.log(pedido);
-});
-
-chuevo = document.getElementById("huevo");
-chuevo.addEventListener("change", () => {
-  pedido.push(new Ingrediente(huevo.nombre, huevo.precio, chuevo.value));
-  console.log(pedido);
-});
-
-cmayonesa = document.getElementById("mayonesa");
-cmayonesa.addEventListener("change", () => {
-  pedido.push(
-    new Ingrediente(mayonesa.nombre, mayonesa.precio, cmayonesa.value)
-  );
-  console.log(pedido);
-});
-
-cketchup = document.getElementById("ketchup");
-cketchup.addEventListener("change", () => {
-  pedido.push(new Ingrediente(ketchup.nombre, ketchup.precio, cketchup.value));
-  console.log(pedido);
-});
-
-cmostaza = document.getElementById("mostaza");
-cmostaza.addEventListener("change", () => {
-  pedido.push(new Ingrediente(mostaza.nombre, mostaza.precio, cmostaza.value));
-  console.log(pedido);
-});
-
-cbarbacoa = document.getElementById("barbacoa");
-cbarbacoa.addEventListener("change", () => {
-  pedido.push(
-    new Ingrediente(barbacoa.nombre, barbacoa.precio, cbarbacoa.value)
-  );
-  console.log(pedido);
-});
-
-formularioPedido.addEventListener("submit", mostrarDetalle);
-
 console.log(pedido);
+
+formularioPedido.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let datosFormulario = new FormData(e.target);
+
+  nombre = datosFormulario.get("nombre");
+  pedido.push(nombre);
+  dia = datosFormulario.get("dia").toLocaleLowerCase();
+  pedido.push(dia);
+  busqueda = dias.find((el) => el.dia == pedido[1]);
+  pedido.push(
+    new Ingrediente(pan.nombre, pan.precio, datosFormulario.get("pan")),
+    new Ingrediente(carne.nombre, carne.precio, datosFormulario.get("carne")),
+    new Ingrediente(
+      chedar.nombre,
+      chedar.precio,
+      datosFormulario.get("chedar")
+    ),
+    new Ingrediente(
+      cebolla.nombre,
+      cebolla.precio,
+      datosFormulario.get("cebolla")
+    ),
+    new Ingrediente(
+      tomate.nombre,
+      tomate.precio,
+      datosFormulario.get("tomate")
+    ),
+    new Ingrediente(
+      lechuga.nombre,
+      lechuga.precio,
+      datosFormulario.get("lechuga")
+    ),
+    new Ingrediente(bacon.nombre, bacon.precio, datosFormulario.get("bacon")),
+    new Ingrediente(huevo.nombre, huevo.precio, datosFormulario.get("huevo")),
+    new Ingrediente(
+      mayonesa.nombre,
+      mayonesa.precio,
+      datosFormulario.get("mayonesa")
+    ),
+    new Ingrediente(
+      ketchup.nombre,
+      ketchup.precio,
+      datosFormulario.get("ketchup")
+    ),
+    new Ingrediente(
+      mostaza.nombre,
+      mostaza.precio,
+      datosFormulario.get("mostaza")
+    ),
+    new Ingrediente(
+      barbacoa.nombre,
+      barbacoa.precio,
+      datosFormulario.get("barbacoa")
+    )
+  );
+
+  localStorage.setItem("Pedido", JSON.stringify(pedido));
+
+  for (const item of pedido) {
+    let precioitem;
+    precioitem = parseFloat(item.precio) * parseFloat(item.stock);
+    if (isNaN(precioitem) != true) {
+      precioparcial += precioitem;
+    }
+  }
+});
+
+mostrarPedido.addEventListener("click", () => {
+  let pedidoStorage = JSON.parse(localStorage.getItem("Pedido"));
+  console.log(pedidoStorage);
+
+  if (busqueda) {
+    preciodescuento = parseFloat(
+      calcularDescuento(precioparcial, busqueda.descuento) //UTILIZACION DE FUNCIONES
+    );
+
+    preciofinal = parseFloat(
+      calcularPreciofinal(precioparcial, preciodescuento)
+    );
+
+    divDetallePedido.innerHTML += `
+              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de descuentos!</h4>
+              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
+              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
+              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
+        `;
+  } else {
+    preciofinal = precioparcial;
+
+    divDetallePedido.innerHTML += `
+              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de Burger!</h4>
+              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
+              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
+              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
+`;
+  }
+});
 
 // DECLARACION DE FUNCIONES
 
@@ -196,41 +199,4 @@ function calcularDescuento(precioparcial, descuento) {
 function calcularPreciofinal(precioparcial, preciodescuento) {
   let preciofinal = precioparcial - preciodescuento;
   return preciofinal;
-}
-
-function mostrarDetalle(e) {
-  e.preventDefault();
-
-  console.log("hola");
-
-  for (const item of pedido) {
-    let precioitem;
-    precioitem = parseFloat(item.precio) * parseFloat(item.stock);
-    if (isNaN(precioitem) != true) {
-      precioparcial += precioitem;
-    }
-  }
-
-
-  preciofinal = parseFloat(calcularPreciofinal(precioparcial, preciodescuento)); //UTILIZACION DE FUNCIONESFf
-
-  if (busqueda) {
-    preciodescuento = parseFloat(
-      calcularDescuento(precioparcial, busqueda.descuento) //UTILIZACION DE FUNCIONES
-    );
-
-    divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de descuentos!</h4>
-              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
-              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
-        `;
-  } else {
-    divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de Burger!</h4>
-              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
-              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
-`;
-  }
 }
