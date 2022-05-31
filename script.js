@@ -51,17 +51,16 @@ class Dias {
   }
 }
 
-const lunes = new Dias("lunes", 0.3);
-const miercoles = new Dias("miercoles", 0.2);
-const miercolesb = new Dias("miércoles", 0.2);
-const domingo = new Dias("domingo", 0.1);
+const DateTime = luxon.DateTime;
+const lunes = new Dias(1, 0.3);
+const miercoles = new Dias(3, 0.2);
+const domingo = new Dias(2, 0.1);
 
-const dias = [lunes, miercoles, miercolesb, domingo];
+const dias = [lunes, miercoles, domingo];
 let busqueda;
 
 let nombre;
-let dia;
-
+let dia = DateTime.local().weekday;
 let precioparcial = 0;
 let preciodescuento = 0;
 let preciofinal;
@@ -97,7 +96,6 @@ formularioPedido.addEventListener("submit", (e) => {
 
   nombre = datosFormulario.get("nombre");
   pedido.push(nombre);
-  dia = datosFormulario.get("dia").toLocaleLowerCase();
   pedido.push(dia);
   busqueda = dias.find((el) => el.dia == pedido[1]);
   pedido.push(
@@ -156,6 +154,12 @@ formularioPedido.addEventListener("submit", (e) => {
       precioparcial += precioitem;
     }
   }
+
+  Swal.fire({
+    icon: "success",
+    title: "Pedido Realizado!",
+    text: "Su pedido de CoderBurguer se procesó correctamente!",
+  });
 });
 
 mostrarPedido.addEventListener("click", () => {
@@ -172,18 +176,26 @@ mostrarPedido.addEventListener("click", () => {
     );
 
     divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de descuentos!</h4>
+              <h4>Hola ${pedido[0]}! Hoy es ${
+      DateTime.local().weekdayLong
+    } de descuentos!</h4>
               <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
+              <h4>Por ser ${
+                DateTime.local().weekdayLong
+              } el descuento es de: $${preciodescuento}</h4>
               <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
         `;
   } else {
     preciofinal = precioparcial;
 
     divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${pedido[1]} de Burger!</h4>
+              <h4>Hola ${pedido[0]}! Hoy es ${
+      DateTime.local().weekdayLong
+    } de Burger!</h4>
               <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${pedido[1]} el descuento es de: $${preciodescuento}</h4>
+              <h4>Por ser ${
+                DateTime.local().weekdayLong
+              } el descuento es de: $${preciodescuento}</h4>
               <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
 `;
   }
