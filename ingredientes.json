@@ -1,0 +1,62 @@
+[
+  {
+    "nombre": "pan",
+    "precio": 100,
+    "stock": 50
+  },
+  {
+    "nombre": "carne",
+    "precio": 200,
+    "stock": 50
+  },
+  {
+    "nombre": "chedar",
+    "precio": 45,
+    "stock": 50
+  },
+  {
+    "nombre": "cebolla",
+    "precio": 100,
+    "stock": 50
+  },
+  {
+    "nombre": "tomate",
+    "precio": 65,
+    "stock": 50
+  },
+  {
+    "nombre": "lechuga",
+    "precio": 20,
+    "stock": 50
+  },
+  {
+    "nombre": "bacon",
+    "precio": 40,
+    "stock": 50
+  },
+  {
+    "nombre": "huevo",
+    "precio": 20,
+    "stock": 50
+  },
+  {
+    "nombre": "mayonesa",
+    "precio": 20,
+    "stock": 50
+  },
+  {
+    "nombre": "ketchup",
+    "precio": 15,
+    "stock": 50
+  },
+  {
+    "nombre": "mostaza",
+    "precio": 15,
+    "stock": 50
+  },
+  {
+    "nombre": "barbacoa",
+    "precio": 20,
+    "stock": 50
+  }
+]

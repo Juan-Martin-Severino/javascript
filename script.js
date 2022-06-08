@@ -8,33 +8,7 @@ class Ingrediente {
   }
 }
 
-const pan = new Ingrediente("pan", 100, 50);
-const carne = new Ingrediente("carne", 200, 50);
-const chedar = new Ingrediente("chedar", 45, 50);
-const cebolla = new Ingrediente("cebolla", 100, 50);
-const tomate = new Ingrediente("tomate", 65, 50);
-const lechuga = new Ingrediente("lechuga", 20, 50);
-const bacon = new Ingrediente("bacon", 40, 50);
-const huevo = new Ingrediente("huevo", 20, 50);
-const mayonesa = new Ingrediente("mayonesa", 20, 50);
-const ketchup = new Ingrediente("ketchup", 150, 50);
-const mostaza = new Ingrediente("mostaza", 15, 50);
-const barbacoa = new Ingrediente("barbacoa", 20, 50);
-
-const ingredientes = [
-  pan,
-  carne,
-  chedar,
-  cebolla,
-  tomate,
-  lechuga,
-  bacon,
-  huevo,
-  mayonesa,
-  ketchup,
-  mostaza,
-  barbacoa,
-];
+const ingredientes = [];
 
 let pedido = [];
 
@@ -70,22 +44,28 @@ let divListadePrecios = document.getElementById("listadeprecios");
 let divDetallePedido = document.getElementById("detallepedido");
 let mostrarPedido = document.getElementById("mostrarPedido");
 
-// INTERACCION CON HTML
+fetch("./ingredientes.json")
+  .then((response) => response.json())
+  .then((datos) => {
+    datos.forEach((ingrediente) => {
+      ingredientes.push(
+        new Ingrediente(
+          ingrediente.nombre,
+          ingrediente.precio,
+          ingrediente.stock
+        )
+      );
 
-ingredientes.forEach((ingredienteEnArray) => {
-  divListadePrecios.innerHTML += `
+      // INTERACCION CON HTML
+
+      divListadePrecios.innerHTML += `
   
-                <li class="list-group-item">${ingredienteEnArray.nombre}: $${ingredienteEnArray.precio}</li>
-              
-        `;
-});
-
-//SOLICITU DE DATOS POR PROMPT Y SALIDA DE DATOS POR ALERT Y CONSOLA
-
-console.log("Lista de Precios");
-for (const ingrediente of ingredientes) {
-  console.log(ingrediente.nombre + ": $" + ingrediente.precio);
-}
+      <li class="list-group-item">${ingrediente.nombre}: $${ingrediente.precio}</li>
+          
+          `;
+    });
+  });
+console.log(ingredientes);
 
 console.log(pedido);
 
@@ -99,48 +79,64 @@ formularioPedido.addEventListener("submit", (e) => {
   pedido.push(dia);
   busqueda = dias.find((el) => el.dia == pedido[1]);
   pedido.push(
-    new Ingrediente(pan.nombre, pan.precio, datosFormulario.get("pan")),
-    new Ingrediente(carne.nombre, carne.precio, datosFormulario.get("carne")),
     new Ingrediente(
-      chedar.nombre,
-      chedar.precio,
+      ingredientes[0].nombre,
+      ingredientes[0].precio,
+      datosFormulario.get("pan")
+    ),
+    new Ingrediente(
+      ingredientes[1].nombre,
+      ingredientes[1].precio,
+      datosFormulario.get("carne")
+    ),
+    new Ingrediente(
+      ingredientes[2].nombre,
+      ingredientes[2].precio,
       datosFormulario.get("chedar")
     ),
     new Ingrediente(
-      cebolla.nombre,
-      cebolla.precio,
+      ingredientes[3].nombre,
+      ingredientes[3].precio,
       datosFormulario.get("cebolla")
     ),
     new Ingrediente(
-      tomate.nombre,
-      tomate.precio,
+      ingredientes[4].nombre,
+      ingredientes[4].precio,
       datosFormulario.get("tomate")
     ),
     new Ingrediente(
-      lechuga.nombre,
-      lechuga.precio,
+      ingredientes[5].nombre,
+      ingredientes[5].precio,
       datosFormulario.get("lechuga")
     ),
-    new Ingrediente(bacon.nombre, bacon.precio, datosFormulario.get("bacon")),
-    new Ingrediente(huevo.nombre, huevo.precio, datosFormulario.get("huevo")),
     new Ingrediente(
-      mayonesa.nombre,
-      mayonesa.precio,
+      ingredientes[6].nombre,
+      ingredientes[6].precio,
+      datosFormulario.get("bacon")
+    ),
+    new Ingrediente(
+      ingredientes[7].nombre,
+      ingredientes[7].precio,
+      datosFormulario.get("huevo")
+    ),
+    new Ingrediente(
+      ingredientes[8].nombre,
+      ingredientes[8].precio,
       datosFormulario.get("mayonesa")
     ),
     new Ingrediente(
-      ketchup.nombre,
-      ketchup.precio,
+      ingredientes[9].nombre,
+      ingredientes[9].precio,
       datosFormulario.get("ketchup")
     ),
     new Ingrediente(
-      mostaza.nombre,
-      mostaza.precio,
+      ingredientes[10].nombre,
+      ingredientes[10].precio,
       datosFormulario.get("mostaza")
     ),
     new Ingrediente(
-      barbacoa.nombre,
-      barbacoa.precio,
+      ingredientes[11].nombre,
+      ingredientes[11].precio,
       datosFormulario.get("barbacoa")
     )
   );
