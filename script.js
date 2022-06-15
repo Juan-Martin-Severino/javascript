@@ -1,23 +1,5 @@
 //DECLARACION DE CLASES, ARRAYS Y VARIABLES
 
-class Ingrediente {
-  constructor(nombre, precio, stock) {
-    this.nombre = nombre;
-    this.precio = precio;
-    this.stock = stock;
-  }
-}
-
-const ingredientes = [];
-
-let pedido = [];
-
-if (localStorage.getItem("Pedido")) {
-  pedido = JSON.parse(localStorage.getItem("Pedido"));
-} else {
-  localStorage.setItem("Pedido", JSON.stringify(pedido));
-}
-
 class Dias {
   constructor(dia, descuento) {
     this.dia = dia;
@@ -25,14 +7,18 @@ class Dias {
   }
 }
 
+const ingredientes = [];
 const DateTime = luxon.DateTime;
 const lunes = new Dias(1, 0.3);
+const martes = new Dias(2, 0.25);
 const miercoles = new Dias(3, 0.2);
-const domingo = new Dias(2, 0.1);
+const jueves = new Dias(4, 0.15);
+const domingo = new Dias(7, 0.1);
+const dias = [lunes, martes, miercoles, jueves, domingo];
 
-const dias = [lunes, miercoles, domingo];
 let busqueda;
-
+let pedidoshistoricos = [];
+let pedido = [];
 let nombre;
 let dia = DateTime.local().weekday;
 let precioparcial = 0;
@@ -42,7 +28,20 @@ let preciofinal;
 let formularioPedido = document.getElementById("pedido");
 let divListadePrecios = document.getElementById("listadeprecios");
 let divDetallePedido = document.getElementById("detallepedido");
-let mostrarPedido = document.getElementById("mostrarPedido");
+
+class Ingrediente {
+  constructor(nombre, precio, stock) {
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+}
+
+if (localStorage.getItem("PedidosHistoricos")) {
+  pedidoshistoricos = JSON.parse(localStorage.getItem("PedidosHistoricos"));
+} else {
+  localStorage.setItem("PedidosHistoricos", JSON.stringify(pedidoshistoricos));
+}
 
 fetch("./ingredientes.json")
   .then((response) => response.json())
@@ -65,9 +64,6 @@ fetch("./ingredientes.json")
           `;
     });
   });
-console.log(ingredientes);
-
-console.log(pedido);
 
 formularioPedido.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -141,7 +137,9 @@ formularioPedido.addEventListener("submit", (e) => {
     )
   );
 
-  localStorage.setItem("Pedido", JSON.stringify(pedido));
+  pedidoshistoricos.push(pedido);
+
+  localStorage.setItem("PedidosHistoricos", JSON.stringify(pedidoshistoricos));
 
   for (const item of pedido) {
     let precioitem;
@@ -150,17 +148,6 @@ formularioPedido.addEventListener("submit", (e) => {
       precioparcial += precioitem;
     }
   }
-
-  Swal.fire({
-    icon: "success",
-    title: "Pedido Realizado!",
-    text: "Su pedido de CoderBurguer se procesó correctamente!",
-  });
-});
-
-mostrarPedido.addEventListener("click", () => {
-  let pedidoStorage = JSON.parse(localStorage.getItem("Pedido"));
-  console.log(pedidoStorage);
 
   if (busqueda) {
     preciodescuento = parseFloat(
@@ -171,30 +158,24 @@ mostrarPedido.addEventListener("click", () => {
       calcularPreciofinal(precioparcial, preciodescuento)
     );
 
-    divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${
-      DateTime.local().weekdayLong
-    } de descuentos!</h4>
-              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${
-                DateTime.local().weekdayLong
-              } el descuento es de: $${preciodescuento}</h4>
-              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
-        `;
+    mostrarPedidoConDescuento();
   } else {
     preciofinal = precioparcial;
 
-    divDetallePedido.innerHTML += `
-              <h4>Hola ${pedido[0]}! Hoy es ${
-      DateTime.local().weekdayLong
-    } de Burger!</h4>
-              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
-              <h4>Por ser ${
-                DateTime.local().weekdayLong
-              } el descuento es de: $${preciodescuento}</h4>
-              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
-`;
+    mostrarPedidoSinDescuento();
   }
+
+  pedido = [];
+  precioparcial = 0;
+  preciofinal = 0;
+
+  procesado = true;
+
+  Swal.fire({
+    icon: "success",
+    title: "Pedido Realizado!",
+    text: "Su pedido de CoderBurguer se procesó correctamente!",
+  });
 });
 
 // DECLARACION DE FUNCIONES
@@ -207,4 +188,29 @@ function calcularDescuento(precioparcial, descuento) {
 function calcularPreciofinal(precioparcial, preciodescuento) {
   let preciofinal = precioparcial - preciodescuento;
   return preciofinal;
+}
+
+function mostrarPedidoConDescuento() {
+  divDetallePedido.innerHTML = `
+              <h4>Hola ${pedido[0]}! Hoy es ${
+    DateTime.local().weekdayLong
+  } de descuentos!</h4>
+              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
+              <h4>Por ser ${
+                DateTime.local().weekdayLong
+              } el descuento es de: $${preciodescuento}</h4>
+              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
+        `;
+}
+function mostrarPedidoSinDescuento() {
+  divDetallePedido.innerHTML = `
+              <h4>Hola ${pedido[0]}! Hoy es ${
+    DateTime.local().weekdayLong
+  } de Burger!</h4>
+              <h4>El precio Parcial de tu burguer es de: $${precioparcial}</h4>
+              <h4>Por ser ${
+                DateTime.local().weekdayLong
+              } el descuento es de: $${preciodescuento}</h4>
+              <h4>El precio Final de tu burguer es de: $${preciofinal}</h4>
+`;
 }
